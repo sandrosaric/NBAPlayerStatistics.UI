@@ -1,4 +1,4 @@
-export interface PlayerFormModel{
+export interface PlayerPutFormModel{
     firstName:string;
     lastName:string;
     positionId:string;

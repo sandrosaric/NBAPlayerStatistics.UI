@@ -1,6 +1,6 @@
 <div class="page-header mt-1">
   <div class="container">
-    <h1>View Player</h1>
+    <h1>{{header}}</h1>
   </div>
 </div>
 
@@ -95,9 +95,15 @@
         </div>
 
       </div>
-      <div class="row form-btns">
+      <div class="row form-btns" *ngIf="!isNewPlayer">
         <button type="submit" color="primary" mat-raised-button (click)="onUpdate()">Save</button>
-      <button color="warn" mat-raised-button>Delete</button>
+      <button color="warn" mat-raised-button (click)="onDelete()">Delete</button>
+
+      </div>
+
+      <div class="row form-btns" *ngIf="isNewPlayer">
+        <button type="submit" color="primary" mat-raised-button (click)="onAdd()">Add</button>
+
 
       </div>
 

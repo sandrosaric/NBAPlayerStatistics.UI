@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PlayerFormModel } from '../models/api-models/player-form-model.model';
+import { PlayerPostFormModel } from '../models/api-models/player-post-form-model.model';
+import {  PlayerPutFormModel } from '../models/api-models/player-put-form-model.model';
 import { Player } from '../models/api-models/player.model';
 
 @Injectable({
@@ -21,7 +22,7 @@ export class PlayersService {
   }
 
   put(playerId:string,player:Player):Observable<Player>{
-    let playerFormModel:PlayerFormModel = {
+    let playerFormModel:PlayerPutFormModel = {
       firstName:player.firstName,
       lastName:player.lastName,
       dateOfBirth:player.dateOfBirth,
@@ -34,4 +35,25 @@ export class PlayersService {
     }
     return this.httpClient.put<Player>(this.baseUrl + "/players/" + playerId,playerFormModel);
   }
-}
+
+  delete(playerId:string):Observable<Player>{
+    return this.httpClient.delete<Player>(this.baseUrl + "/players/" + playerId);
+  }
+
+  add(player:Player):Observable<Player>{
+    let playerPostFormModel:PlayerPostFormModel = {
+
+        firstName:player.firstName,
+        lastName:player.lastName,
+        dateOfBirth:player.dateOfBirth,
+        positionId:player.positionId,
+        clubId:player.clubId,
+        pts:player.pts,
+        reb:player.reb,
+        ast:player.ast,
+        per:player.per
+      }
+     return this.httpClient.post<Player>(this.baseUrl+ "/players/add",playerPostFormModel);
+    }
+  }
+

@@ -14,6 +14,10 @@ const routes: Routes = [{
 {
   path:"players/:playerId",
   component:ViewPlayerComponent
+},
+{
+  path:"players/add",
+  component:ViewPlayerComponent
 }];
 
 @NgModule({

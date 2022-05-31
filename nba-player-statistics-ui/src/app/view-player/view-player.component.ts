@@ -44,6 +44,8 @@ playerId:(string | null | undefined);
 
   clubs:Club[] = [];
   positions:Position[] = [];
+  isNewPlayer = false;
+  header = "";
 
 
 
@@ -62,6 +64,7 @@ playerId:(string | null | undefined);
 
 
 
+
   private getById(){
 
     this.route.paramMap.subscribe(
@@ -70,15 +73,25 @@ playerId:(string | null | undefined);
       }
     );
     if(this.playerId){
-      this.playersService.getById(this.playerId).subscribe(
-        result =>{
-          console.log(result);
-          this.player = result;
-        },
-        error =>{
+      if(this.playerId.toLowerCase() == "Add".toLowerCase()){
+        this.isNewPlayer = true;
+        this.header = "Add new player";
+      }
+      else{
+        this.isNewPlayer = false;
+        this.header = "Edi a player";
+        this.playersService.getById(this.playerId).subscribe(
+          result =>{
+            console.log(result);
+            this.player = result;
+          },
+          error =>{
 
-        }
-      );
+          }
+        );
+      }
+
+
     }
 
   }
@@ -121,6 +134,36 @@ playerId:(string | null | undefined);
         }
       )
 
+  }
+
+  onDelete(){
+    this.playersService.delete(this.player.id).subscribe(
+      result =>{
+        this.snackBar.open("Player successfully deleted!",undefined,{duration:2000});
+        setTimeout(()=>{
+          this.router.navigateByUrl("/players");
+        },2000)
+      },
+      error => {
+
+      }
+    )
+  }
+
+  onAdd(){
+    if(this.player){
+      this.playersService.add(this.player).subscribe(
+        result => {
+          this.snackBar.open("Player successfully added!",undefined,{duration:2000});
+          setTimeout(()=>{
+            this.router.navigateByUrl("/players");
+          },2000)
+        },
+        error => {
+
+        }
+      );
+    }
   }
 
 }

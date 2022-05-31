@@ -7,9 +7,11 @@
 
 <div class="container">
   <div>
-    <input type="text" class="search-input mb-1" placeholder="Search players"
+    <input type="text" class="search-input mb-1 mr-1" placeholder="Search players"
     (keyup)="filterPlayers()"
     [(ngModel)]="filterString">
+
+    <a routerLink="/players/add" mat-raised-button color="primary">Add</a>
   </div>
   <div>
     <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
