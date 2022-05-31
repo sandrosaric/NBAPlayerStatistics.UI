@@ -16,7 +16,7 @@ import { PlayersService } from '../services/players.service';
 export class PlayersComponent implements OnInit {
 
   players:Player[] = [];
-  displayedColumns:string[] = ["firstName","lastName","club","position","dateOfBirth","pts","reb","ast","per"];
+  displayedColumns:string[] = ["firstName","lastName","club","position","dateOfBirth","pts","reb","ast","per","edit"];
   dataSource:MatTableDataSource<Player> = new MatTableDataSource<Player>();
   @ViewChild(MatPaginator) matPaginator!:MatPaginator;
   @ViewChild(MatSort) matSort!:MatSort;

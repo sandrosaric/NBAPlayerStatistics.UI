@@ -50,13 +50,15 @@ import { TopNavComponent } from './layout/top-nav/top-nav.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PlayersComponent } from './players/players.component';
 import { FormsModule } from '@angular/forms';
+import { ViewPlayerComponent } from './view-player/view-player.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
-    PlayersComponent
+    PlayersComponent,
+    ViewPlayerComponent
   ],
   imports: [
     BrowserModule,
