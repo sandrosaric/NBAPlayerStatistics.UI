@@ -55,5 +55,19 @@ export class PlayersService {
       }
      return this.httpClient.post<Player>(this.baseUrl+ "/players/add",playerPostFormModel);
     }
+
+    uploadImage(playerId:string,file:File ):Observable<any>{
+      const formData = new FormData();
+      formData.append("profileImage",file);
+
+      return this.httpClient.post(this.baseUrl + "/players/" + playerId + "/upload-image",formData,{
+        responseType:"text"
+      });
+      }
+
+    getImagePath(relativePath:string){
+      return `${this.baseUrl}/${relativePath}`;
+    }
+
   }
 

@@ -46,6 +46,7 @@ playerId:(string | null | undefined);
   positions:Position[] = [];
   isNewPlayer = false;
   header = "";
+  displayProfileImageUrl = "";
 
 
 
@@ -57,7 +58,7 @@ playerId:(string | null | undefined);
     private snackBar:MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getById();
+    this.CreateOrUpdate();
     this.getClubs();
     this.getPositions();
   }
@@ -65,7 +66,7 @@ playerId:(string | null | undefined);
 
 
 
-  private getById(){
+  private CreateOrUpdate(){
 
     this.route.paramMap.subscribe(
       params =>{
@@ -76,14 +77,16 @@ playerId:(string | null | undefined);
       if(this.playerId.toLowerCase() == "Add".toLowerCase()){
         this.isNewPlayer = true;
         this.header = "Add new player";
+        this.setImage();
       }
       else{
         this.isNewPlayer = false;
-        this.header = "Edi a player";
+        this.header = "Edit a player";
         this.playersService.getById(this.playerId).subscribe(
           result =>{
-            console.log(result);
             this.player = result;
+            console.log(this.player);
+            this.setImage();
           },
           error =>{
 
@@ -163,6 +166,35 @@ playerId:(string | null | undefined);
 
         }
       );
+    }
+  }
+
+  private setImage(){
+    if(this.player.profileImageUrl){
+      this.displayProfileImageUrl = this.playersService.getImagePath(this.player.profileImageUrl);
+    }
+    else{
+      this.displayProfileImageUrl = "assets/user.png";
+    }
+  }
+
+
+  uploadImage(event:any){
+    if(this.playerId){
+      const file:File = event.target.files[0];
+      this.playersService.uploadImage(this.playerId,file).subscribe(
+        result =>{
+          this.player.profileImageUrl = result;
+          console.log(this.player.profileImageUrl);
+          this.setImage();
+          this.snackBar.open("Image uploaded successfully!",undefined,{
+            duration:2000
+          })
+        },
+        error => {
+
+        }
+      )
     }
   }
 
