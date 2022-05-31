@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Club } from '../models/ui-models/club.model';
@@ -48,6 +49,8 @@ playerId:(string | null | undefined);
   header = "";
   displayProfileImageUrl = "";
 
+
+  @ViewChild("playerForm") playerForm?:NgForm
 
 
   constructor(private playersService:PlayersService,
@@ -122,7 +125,7 @@ playerId:(string | null | undefined);
   }
 
   onUpdate(){
-
+    if(this.playerForm?.valid){
       this.playersService.put(this.player.id,this.player).subscribe(
         result => {
           console.log(result);
@@ -136,6 +139,8 @@ playerId:(string | null | undefined);
 
         }
       )
+    }
+
 
   }
 
@@ -154,19 +159,22 @@ playerId:(string | null | undefined);
   }
 
   onAdd(){
-    if(this.player){
-      this.playersService.add(this.player).subscribe(
-        result => {
-          this.snackBar.open("Player successfully added!",undefined,{duration:2000});
-          setTimeout(()=>{
-            this.router.navigateByUrl("/players");
-          },2000)
-        },
-        error => {
+    if(this.playerForm?.valid){
+      if(this.player){
+        this.playersService.add(this.player).subscribe(
+          result => {
+            this.snackBar.open("Player successfully added!",undefined,{duration:2000});
+            setTimeout(()=>{
+              this.router.navigateByUrl("/players");
+            },2000)
+          },
+          error => {
 
-        }
-      );
+          }
+        );
+      }
     }
+
   }
 
   private setImage(){
